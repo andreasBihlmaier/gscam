@@ -7,8 +7,16 @@ find_package(PkgConfig)
 
 if(GSTREAMER_VERSION_1_x)
   message(STATUS "gst 1.0")
-  pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0)
-  pkg_check_modules(GST_APP REQUIRED gstreamer-app-1.0)
+  pkg_check_modules(GSTREAMER REQUIRED gstreamer-1.0>=1.0)
+  pkg_check_modules(GST_APP REQUIRED gstreamer-app-1.0>=1.0)
+  string(REPLACE "0.10" "1.0" GSTREAMER_LIBRARIES "${GSTREAMER_LIBRARIES}")
+  string(REPLACE "0.10" "1.0" GSTREAMER_INCLUDE_DIRS "${GSTREAMER_INCLUDE_DIRS}")
+  message("${GSTREAMER_LIBRARIES}")
+  message("${GSTREAMER_INCLUDE_DIRS}")
+  string(REPLACE "0.10" "1.0" GST_APP_LIBRARIES "${GST_APP_LIBRARIES}")
+  string(REPLACE "0.10" "1.0" GST_APP_INCLUDE_DIRS "${GST_APP_INCLUDE_DIRS}")
+  message("${GST_APP_LIBRARIES}")
+  message("${GST_APP_INCLUDE_DIRS}")
 else()
   message(STATUS "gst 0.1")
   pkg_check_modules(GSTREAMER REQUIRED gstreamer-0.10)
@@ -61,6 +69,7 @@ else()
     include
     ${catkin_INCLUDE_DIRS}
     ${GLIB_INCLUDE_DIRS}
+    ${GSTREAMER_INCLUDE_DIRS}
     ${GST_APP_INCLUDE_DIRS})
 
   add_library(gscam src/gscam.cpp)
